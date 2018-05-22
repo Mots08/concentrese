@@ -129,6 +129,10 @@ public class Principal {
 	}
 
 	public static char[][] cargar(int tamanioTablero, ArrayList<Character> caracteres) {
+		/*
+		 *  
+		 */
+		
 		char matriz[][] = new char[tamanioTablero][tamanioTablero];
 		int tamanioFinalTablero = tamanioTablero / 2;
 		int contador = 0, filas = 0;
