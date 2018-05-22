@@ -1,69 +1,66 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Principal {
 	/*
-	 * Declaraci贸n de variables globales
+	 * Declaracion de variables globales
 	 */
-	static int cantidadMaximaCaracteres = 127;
-	static Random random = new Random();		
-	
+	static int cantidadMaximaCaracteres = 93;
+	static Random random = new Random();
+
 	public static void main(String[] args) {
 		menu();
 	}
 
 	public static void jugar() {
-		int tamanio = 0;		
+		int tamanio = 0;
 		int cantidadCaracteres = 0;
-		
-		System.out.println("Seleccione el tama帽o del tablero: ");
+
+		System.out.println("Seleccione el tama駉 del tablero: ");
 		Scanner scanner = new Scanner(System.in);
 		String tamanioTablero = scanner.nextLine();
-
-		try {			
+		try {
 			tamanio = Integer.parseInt(tamanioTablero);
-			
+
 		} catch (Exception e) {
 			System.out.flush();
-			System.err.println("Ingrese una opci贸n valida");
+			System.err.println("Ingrese una opcion valida");
 			jugar();
 		}
 
 		if (tamanio % 2 == 0) {
-			cantidadCaracteres = (tamanio * tamanio) /2; 
+			cantidadCaracteres = (tamanio * tamanio) / 2;
 			if (cantidadCaracteres <= cantidadMaximaCaracteres) {
-				String matriz[][] = new String[tamanio][tamanio];
-				// cargar(matriz, cantidadCaracteres);
-				imprimir(prueba(cantidadCaracteres));
-			}else {
+				cargar(tamanio, obtenerCaracteres(cantidadCaracteres));
+				imprimir(cargar(tamanio, obtenerCaracteres(cantidadCaracteres)));
+			} else {
 				System.out.flush();
-				System.err.println("El tama帽o del tablero no es valido");
+				System.err.println("El tama駉 del tablero no es valido porque supera la cantidad maxima ("
+						+ cantidadMaximaCaracteres + ") de caracteres");
 				jugar();
 			}
 		} else {
 			System.out.flush();
-			System.err.println("El tama帽o del tablero no es valido");
+			System.err.println("El tama駉 del tablero no es valido");
 			jugar();
 		}
 	}
 
 	public static void menu() {
 		/*
-		 * Metodo que permite seleccionar las opciones del men煤
+		 * Metodo que permite seleccionar las opciones del menu
 		 */
 		int opcion = 0;
-		System.out.println("隆Bienvenido al juego conc茅ntrese!\n Seleccione: \n 1.Jugar \n 2.Salir ");
+		System.out.println("ienvenido al juego concentrese!\n Seleccione: \n 1.Jugar \n 2.Salir ");
 		Scanner scanner = new Scanner(System.in);
 		String ingreso_opcion = scanner.nextLine();
-
 		try {
 			opcion = Integer.parseInt(ingreso_opcion);
 		} catch (Exception e) {
 			System.out.flush();
-			System.err.println("Ingrese una opci贸n valida");
+			System.err.println("Ingrese una opcion valida");
 			menu();
 		}
 
@@ -75,54 +72,79 @@ public class Principal {
 			System.exit(0);
 		} else {
 			System.out.flush();
-			System.err.println("Ingrese una opci贸n valida\n");
+			System.err.println("Ingrese una opcion valida\n");
 			menu();
 		}
 	}
 
-	public static String[][] cargar(String matriz[][], int cantidadCaracteres) {
-
-		return matriz;
-
-	}
-
-	public static ArrayList<Character> prueba(int cantidadCaracteres) {		
-		
+	public static ArrayList<Character> obtenerCaracteres(int cantidadCaracteres) {
+		/*
+		 * Metodo que permite crear los caracteres para llenar la matriz, tomando como
+		 * base los caracteres imprimibles (33-126) del codigo ASCII
+		 * 
+		 * Retorna un ArrayList con los caracteres.
+		 */
 		boolean numeroIgual = false;
 		char caracterAleatorio;
 		int numeroAleatorio, contador = 0;
 		boolean encontrado = false;
-		ArrayList<Character> letras = new ArrayList<Character>();		
+		ArrayList<Character> letras = new ArrayList<Character>();
 		ArrayList<Integer> posiciones = new ArrayList<Integer>();
-	
-		while (encontrado == false) {			
-			numeroAleatorio = random.nextInt(cantidadMaximaCaracteres);			
-			if (posiciones.size()>0) {
+
+		while (encontrado == false) {
+			numeroAleatorio = ThreadLocalRandom.current().nextInt(33, 126);
+			if (posiciones.size() > 0) {
 				for (int i = 0; i < posiciones.size(); i++) {
-					if(numeroAleatorio == posiciones.get(i)) {
+					if (numeroAleatorio == posiciones.get(i)) {
 						numeroIgual = true;
 					}
 				}
-			}			
-			if(numeroIgual==false) {				
-				posiciones.add(numeroAleatorio);							
-				caracterAleatorio=(char)numeroAleatorio;
+			}
+			if (numeroIgual == false) {
+				posiciones.add(numeroAleatorio);
+				caracterAleatorio = (char) numeroAleatorio;
 				letras.add(caracterAleatorio);
-				contador ++;
-			}else {
+				contador++;
+			} else {
 				numeroIgual = false;
-			}			
-			if(cantidadCaracteres==contador) {
+			}
+			if (cantidadCaracteres == contador) {
 				encontrado = true;
 			}
 
 		}
 		return letras;
 	}
-	public static void imprimir(ArrayList<Character>letras) {
-         for (int i = 0; i < letras.size(); i++) {
-			System.out.println(letras.get(i));
+
+	public static void imprimir(char matriz[][]) {
+		for (int filas = 0; filas < matriz.length; filas++) {
+			for (int columnas = 0; columnas < matriz.length; columnas++) {
+				System.out.print("[ "+matriz[filas][columnas]+ "]");
+				if (columnas == (matriz.length - 1)) {
+					System.out.print("\n");
+				}
+			}
+
 		}
+	}
+
+	public static char[][] cargar(int tamanioTablero, ArrayList<Character> caracteres) {
+		char matriz[][] = new char[tamanioTablero][tamanioTablero];
+		int tamanioFinalTablero = tamanioTablero / 2;
+		int contador = 0, filas = 0;
+
+		for (int ciclosCarga = 0; ciclosCarga < 2; ciclosCarga++) {
+			contador = 0;
+			for (int i = 0; i < tamanioFinalTablero; i++) {
+				for (int columnas = 0; columnas < tamanioTablero; columnas++) {
+					matriz[filas][columnas] = caracteres.get(contador);
+					contador++;										
+				}
+				filas++;
+			}
+		}
+		return matriz;
+
 	}
 
 }
