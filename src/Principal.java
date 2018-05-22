@@ -119,7 +119,7 @@ public class Principal {
 	public static void imprimir(char matriz[][]) {
 		for (int filas = 0; filas < matriz.length; filas++) {
 			for (int columnas = 0; columnas < matriz.length; columnas++) {
-				System.out.print("[ "+matriz[filas][columnas]+ "]");
+				System.out.print("[ " + matriz[filas][columnas] + "]");
 				if (columnas == (matriz.length - 1)) {
 					System.out.print("\n");
 				}
@@ -135,16 +135,26 @@ public class Principal {
 
 		for (int ciclosCarga = 0; ciclosCarga < 2; ciclosCarga++) {
 			contador = 0;
-			for (int i = 0; i < tamanioFinalTablero; i++) {
-				for (int columnas = 0; columnas < tamanioTablero; columnas++) {
-					matriz[filas][columnas] = caracteres.get(contador);
-					contador++;										
+			if (ciclosCarga == 0) {
+				for (int i = 0; i < tamanioFinalTablero; i++) {
+					for (int columnas = 0; columnas < tamanioTablero; columnas++) {
+						matriz[filas][columnas] = caracteres.get(contador);
+						contador++;
+					}
+					filas++;
+	
 				}
-				filas++;
+			} else {
+				filas = filas -1;
+				for (int filasContrarias = (filas * 2)+1; filasContrarias > filas ; filasContrarias--) {
+					for (int columnasContrarias = (matriz.length-1); columnasContrarias >= 0; columnasContrarias--) {
+						matriz[filasContrarias][columnasContrarias] = caracteres.get(contador);
+						contador++;
+					}
+				}
 			}
 		}
 		return matriz;
 
 	}
-
 }
