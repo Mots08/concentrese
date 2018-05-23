@@ -12,6 +12,7 @@ public class Principal {
 	static int jugador1 = 0;
 	static int jugador2 = 0;
 	static int contadorFilaColumna = 0;
+	private static Scanner scanner;
 
 	public static void main(String[] args) {
 		menu();
@@ -25,8 +26,8 @@ public class Principal {
 		int tamanio = 0;
 		int cantidadCaracteres = 0;
 
-		System.out.println("Seleccione el tama�o del tablero: ");
-		Scanner scanner = new Scanner(System.in);
+		System.out.println("Seleccione el tamano del tablero: ");
+		scanner = new Scanner(System.in);
 		String tamanioTablero = scanner.nextLine();
 		try {
 			tamanio = Integer.parseInt(tamanioTablero);
@@ -66,7 +67,7 @@ public class Principal {
 		 */
 		int opcion = 0;
 		System.out.println("�Bienvenido al juego concentrese!\n Seleccione: \n 1.Jugar \n 2.Salir ");
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		String ingreso_opcion = scanner.nextLine();
 		try {
 			opcion = Integer.parseInt(ingreso_opcion);
@@ -258,7 +259,8 @@ public class Principal {
 								terminarJuego = validarMatrizLlena(matrizVacia);
 							}
 						} else {
-							System.err.println("No coninciden los caracteres");
+							imprimir(matrizVacia);
+							System.err.println("No coninciden los caracteres");							
 							contadorPosicion = 0;
 							matrizVacia[posicionInicial[0]][posicionInicial[1]] = (char) 45;
 							matrizVacia[fila][columna] = (char) 45;
@@ -310,7 +312,7 @@ public class Principal {
 			} else if (contadorFilaColumna == 1) {
 				System.out.println("Digite la Columna:");
 			}
-			Scanner scanner = new Scanner(System.in);
+			scanner = new Scanner(System.in);
 			String filaColumnaEntrada = scanner.nextLine();
 
 			try {
